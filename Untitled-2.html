@@ -1,12 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
+
 <body>
-    
+    <div id="app">
+        {{name}} 是 {{getProp()}}!
+        <div v-bind:title='sex'>hover please</div>
+        <div @click="showTips()">
+            <button v-on:click.stop="showTips()">
+                click me!
+            </button>
+            <a target="_blank" href="http://www.chinacses.org" @click.prevent.stop="showTips()">超链接</a>
+        </div>
+        <input type="text" @keyup.13.space.esc="keyup">
+        <!-- 系统修饰符 -->
+        <button @click.shift="shift">shift click</button>
+        <button @click.shift="shift">shift click</button>
+
+        <input type="text" @keyup="changeContent">
+        output : {{content}}
+        <input type="text" @keyup.enter="content = $event.target.value">
+        output : {{content}}
+        <form action="" @submit.prevent="changeContent">
+            <input type="submit">
+        </form>
+
+
+        <!-- 双向绑定 -->
+
+        {{typeof(value)}}<input type="text" v-model.number="value">
+
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                value: "12",
+                content: "hello",
+                name: "Lucy",
+                age: "120",
+                sex: "girl"
+            },
+            methods: {
+                getProp: function () {
+                    return this.age > 18 ? "成年人" : "未成年人"
+                },
+                showTips: function () {
+                    alert('alert Tips!');
+                },
+                keyup: function () {
+                    alert('key tips!!');
+                },
+                shift: function () {
+                    alert("key shift");
+                },
+                changeContent: function (e) {
+                    !e.target.value ? this.content = "000" : this.content = e.target.value;
+
+                }
+            }
+        })
+    </script>
 </body>
+
 </html>
